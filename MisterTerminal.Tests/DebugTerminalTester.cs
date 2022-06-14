@@ -1,7 +1,7 @@
 ﻿using ConsoleColor = System.ConsoleColor;
 
 namespace MisterTerminal.Tests;
-
+#if DEBUG
 [TestClass]
 public class DebugTerminalTester
 {
@@ -471,3 +471,4 @@ public class DebugTerminalTester
         }
     }
 }
+#endif

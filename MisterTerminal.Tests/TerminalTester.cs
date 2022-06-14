@@ -2203,6 +2203,7 @@ public class TerminalTester
             action.Should().Throw<ArgumentException>().WithMessage(string.Format(Exceptions.DuplicateIdentifiers, string.Join(',', duplicateIdentifiers)));
         }
 
+
         [TestMethod]
         public void WhenThereIsOnlyOneChoice_DisplayTheOneChoice()
         {
@@ -2330,5 +2331,30 @@ public class TerminalTester
             isExecuted.Should().BeTrue();
         }
 
+        [TestMethod]
+        [DataRow("")]
+        [DataRow(" ")]
+        [DataRow(null)]
+        public void WhenThereAreEmptyIdentifiers_DoNotThrow(string identifier)
+        {
+            //Arrange
+            var choices = Fixture.Build<Choice>().With(x => x.Identifier, identifier).CreateMany().ToList();
+
+            var identifiers = new List<string> { "1", "2", "3" };
+
+            GetMock<IConsole>().Setup(x => x.ReadKey()).Returns(new ConsoleKeyInfo(identifiers.GetRandom().First(), Fixture.Create<ConsoleKey>(), Fixture.Create<bool>(), Fixture.Create<bool>(), Fixture.Create<bool>()));
+
+            foreach (var choice in choices)
+            {
+                var formattedText = Fixture.Create<string>();
+                GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{choice.Identifier}. {choice.Text}".Color(ForegroundColor))).Returns(formattedText);
+            }
+
+            //Act
+            var action = () => Instance.AskChoice(choices.ToArray());
+
+            //Assert
+            action.Should().NotThrow();
+        }
     }
 }

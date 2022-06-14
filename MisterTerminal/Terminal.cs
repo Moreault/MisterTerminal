@@ -209,7 +209,7 @@ public class Terminal : TerminalWriter, ITerminal
     {
         if (choices == null) throw new ArgumentNullException(nameof(choices));
         if (!choices.Any()) throw new ArgumentException(Exceptions.NoChoice);
-        var duplicates = choices.Select(x => x.Identifier.ToLowerInvariant()).GroupBy(x => x).Where(x => x.Count() > 1).Select(x => x.Key).ToList();
+        var duplicates = choices.Where(x => !string.IsNullOrWhiteSpace(x.Identifier)).Select(x => x.Identifier.ToLowerInvariant()).GroupBy(x => x).Where(x => x.Count() > 1).Select(x => x.Key).ToList();
         if (duplicates.Any())
             throw new ArgumentException(string.Format(Exceptions.DuplicateIdentifiers, string.Join(',', duplicates)));
 
