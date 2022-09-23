@@ -17,4 +17,5 @@ global using ToolBX.MisterTerminal.Resources;
 global using ToolBX.MisterTerminal.Settings;
 global using ToolBX.NetAbstractions;
 global using ToolBX.NetAbstractions.Diagnostics;
+global using ToolBX.OPEX;
 global using ToolBX.TimeProvider;
