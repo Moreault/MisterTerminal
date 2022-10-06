@@ -12,7 +12,7 @@
 		<PackageProjectUrl>https://github.com/Moreault/MisterTerminal</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>A high level library to easily and cleanly build smarter console applications.</Description>
-		<Version>1.0.1</Version>
+		<Version>1.0.2</Version>
 		<Product>ToolBX.$(AssemblyName)</Product>
 		<PackageIcon>misterterminal.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -33,7 +33,7 @@
 		<PackageReference Include="ToolBX.AutoInject" Version="1.0.2" />
 		<PackageReference Include="ToolBX.ColorFull" Version="1.0.5" />
 		<PackageReference Include="ToolBX.DML.NET" Version="0.9.2-beta2" />
-		<PackageReference Include="ToolBX.NetAbstractions" Version="1.0.7" />
+		<PackageReference Include="ToolBX.NetAbstractions" Version="1.0.8" />
 		<PackageReference Include="ToolBX.TimeProvider" Version="1.0.0" />
 	</ItemGroup>
 
