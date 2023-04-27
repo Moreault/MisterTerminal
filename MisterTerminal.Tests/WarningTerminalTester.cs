@@ -182,7 +182,7 @@ public class WarningTerminalTester
             //Arrange
             var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Warning.Color!.Foreground!.Value;
+            var foregroundColor = options.Warning!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
             TimeProvider.Freeze(now);
@@ -209,7 +209,7 @@ public class WarningTerminalTester
             //Arrange
             var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Warning.Color!.Foreground!.Value;
+            var foregroundColor = options.Warning!.Color!.Foreground!.Value;
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -231,7 +231,7 @@ public class WarningTerminalTester
             //Arrange
             var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Warning.Color!.Foreground!.Value;
+            var foregroundColor = options.Warning!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
@@ -252,7 +252,7 @@ public class WarningTerminalTester
             //Arrange
             var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Warning.Color!.Foreground!.Value;
+            var foregroundColor = options.Warning!.Color!.Foreground!.Value;
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -262,7 +262,7 @@ public class WarningTerminalTester
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
-            Instance.Wrote += (sender, args) => triggers.Add(args);
+            Instance.Wrote += (_, eventArgs) => triggers.Add(eventArgs);
 
             //Act
             Instance.Write(text, args);
@@ -327,7 +327,7 @@ public class WarningTerminalTester
             var args = Fixture.CreateMany<object>().ToArray();
 
             var triggers = new List<WriteEventArgs>();
-            Instance.Wrote += (sender, eventArgs) => triggers.Add(eventArgs);
+            Instance.Wrote += (_, eventArgs) => triggers.Add(eventArgs);
 
             //Act
             Instance.TryWrite(text, args);
@@ -342,7 +342,7 @@ public class WarningTerminalTester
             //Arrange
             var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Warning.Color!.Foreground!.Value;
+            var foregroundColor = options.Warning!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
             TimeProvider.Freeze(now);
@@ -369,7 +369,7 @@ public class WarningTerminalTester
             //Arrange
             var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Warning.Color!.Foreground!.Value;
+            var foregroundColor = options.Warning!.Color!.Foreground!.Value;
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -391,7 +391,7 @@ public class WarningTerminalTester
             //Arrange
             var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Warning.Color!.Foreground!.Value;
+            var foregroundColor = options.Warning!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
@@ -412,7 +412,7 @@ public class WarningTerminalTester
             //Arrange
             var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Warning.Color!.Foreground!.Value;
+            var foregroundColor = options.Warning!.Color!.Foreground!.Value;
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -422,7 +422,7 @@ public class WarningTerminalTester
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
-            Instance.Wrote += (sender, args) => triggers.Add(args);
+            Instance.Wrote += (_, eventArgs) => triggers.Add(eventArgs);
 
             //Act
             Instance.TryWrite(text, args);
@@ -448,7 +448,7 @@ public class WarningTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.BackgroundColor.Should().Be(options!.Warning.Color!.Background);
+            Instance.BackgroundColor.Should().Be(options!.Warning!.Color!.Background);
 
         }
 
@@ -465,7 +465,7 @@ public class WarningTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.ForegroundColor.Should().Be(options!.Warning.Color!.Foreground);
+            Instance.ForegroundColor.Should().Be(options!.Warning!.Color!.Foreground);
         }
     }
 
