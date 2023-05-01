@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -32,7 +32,7 @@
 	<ItemGroup>
 		<PackageReference Include="ToolBX.AutoInject" Version="2.0.1" />
 		<PackageReference Include="ToolBX.ColorFull" Version="2.0.2" />
-		<PackageReference Include="ToolBX.DML.NET" Version="2.0.0-beta1" />
+		<PackageReference Include="ToolBX.DML.NET" Version="2.0.0-beta3" />
 		<PackageReference Include="ToolBX.NetAbstractions" Version="2.0.1" />
 		<PackageReference Include="ToolBX.TimeProvider" Version="2.0.1" />
 	</ItemGroup>
