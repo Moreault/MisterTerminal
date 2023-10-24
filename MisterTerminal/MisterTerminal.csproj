@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ToolBX.AutoInject" Version="2.0.2" />
+		<PackageReference Include="ToolBX.AutoInject" Version="2.1.1" />
 		<PackageReference Include="ToolBX.ColorFull" Version="2.0.3" />
 		<PackageReference Include="ToolBX.DML.NET" Version="2.0.0-beta5" />
 		<PackageReference Include="ToolBX.NetAbstractions" Version="2.0.3" />
