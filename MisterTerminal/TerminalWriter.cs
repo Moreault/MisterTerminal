@@ -44,7 +44,7 @@ public abstract class TerminalWriter : ITerminalWriter
 
     private readonly TerminalSettings _settings;
 
-    private string TimeStamp => string.Format($"[{TimeProvider.TimeProvider.Now.ToString(_settings.TimeStamps.Format)}]");
+    private string TimeStamp => string.Format($"[{GlobalTimeProvider.Now.ToString(_settings.TimeStamps.Format)}]");
 
     protected TerminalWriter(IConsole console, IOptions<TerminalSettings> settings, IDmlAnsiConverter dmlAnsiConverter)
     {

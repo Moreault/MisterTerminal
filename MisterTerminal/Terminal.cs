@@ -61,7 +61,7 @@ public interface ITerminal : ITerminalWriter
 
 }
 
-[AutoInject]
+[AutoInject(ServiceLifetime.Scoped)]
 public class Terminal : TerminalWriter, ITerminal
 {
     public IDebugTerminal Debug { get; }
