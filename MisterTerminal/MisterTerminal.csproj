@@ -19,14 +19,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\misterterminal.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="..\README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\misterterminal.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,27 +44,27 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Resources\Exceptions.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Exceptions.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\Text.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Text.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Resources\Exceptions.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Exceptions.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Text.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Text.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Exceptions.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Exceptions.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Text.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Text.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Resources\Exceptions.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Exceptions.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Text.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Text.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>
