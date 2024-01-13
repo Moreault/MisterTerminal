@@ -5,7 +5,7 @@ public interface IDmlAnsiConverter
     string Convert(string text);
 }
 
-[AutoInject]
+[AutoInject(ServiceLifetime.Singleton)]
 public class DmlAnsiConverter : IDmlAnsiConverter
 {
     private readonly IDmlSerializer _dmlSerializer;

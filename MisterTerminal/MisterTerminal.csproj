@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -12,29 +12,29 @@
 		<PackageProjectUrl>https://github.com/Moreault/MisterTerminal</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Description>A high level library to easily and cleanly build smarter console applications.</Description>
-		<Version>2.0.4</Version>
+		<Version>2.2.0-beta1</Version>
 		<Product>ToolBX.$(AssemblyName)</Product>
 		<PackageIcon>misterterminal.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\misterterminal.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="..\README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\misterterminal.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ToolBX.AutoInject" Version="2.0.2" />
-		<PackageReference Include="ToolBX.ColorFull" Version="2.0.3" />
-		<PackageReference Include="ToolBX.DML.NET" Version="2.0.0-beta5" />
-		<PackageReference Include="ToolBX.NetAbstractions" Version="2.0.3" />
-		<PackageReference Include="ToolBX.TimeProvider" Version="2.0.3" />
+		<PackageReference Include="ToolBX.AutoInject" Version="2.2.0" />
+		<PackageReference Include="ToolBX.ColorFull" Version="2.2.1" />
+		<PackageReference Include="ToolBX.DML.NET" Version="2.2.0" />
+		<PackageReference Include="ToolBX.NetAbstractions" Version="2.2.0" />
+		<PackageReference Include="ToolBX.TimeProvider" Version="2.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,27 +44,27 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Resources\Exceptions.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Exceptions.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\Text.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Text.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Resources\Exceptions.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Exceptions.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Text.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Text.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Exceptions.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Exceptions.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Text.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Text.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Resources\Exceptions.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Exceptions.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Text.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Text.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>

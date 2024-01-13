@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace ToolBX.MisterTerminal
+﻿namespace ToolBX.MisterTerminal
 {
     public static class ServiceCollectionExtensions
     {

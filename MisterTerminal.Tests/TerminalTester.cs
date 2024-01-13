@@ -196,9 +196,9 @@ public class TerminalTester
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
-            TimeProvider.Freeze(now);
+            GlobalTimeProvider.Freeze(now);
 
-            var timestamp = string.Format($"[{TimeProvider.Now.ToString(options.TimeStamps.Format)}]");
+            var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -356,9 +356,9 @@ public class TerminalTester
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
-            TimeProvider.Freeze(now);
+            GlobalTimeProvider.Freeze(now);
 
-            var timestamp = string.Format($"[{TimeProvider.Now.ToString(options.TimeStamps.Format)}]");
+            var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -575,9 +575,9 @@ public class TerminalTester
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
-            TimeProvider.Freeze(now);
+            GlobalTimeProvider.Freeze(now);
 
-            var timestamp = string.Format($"[{TimeProvider.Now.ToString(options.TimeStamps.Format)}]");
+            var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -746,9 +746,9 @@ public class TerminalTester
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
-            TimeProvider.Freeze(now);
+            GlobalTimeProvider.Freeze(now);
 
-            var timestamp = string.Format($"[{TimeProvider.Now.ToString(options.TimeStamps.Format)}]");
+            var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -942,9 +942,9 @@ public class TerminalTester
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
-            TimeProvider.Freeze(now);
+            GlobalTimeProvider.Freeze(now);
 
-            var timestamp = string.Format($"[{TimeProvider.Now.ToString(options.TimeStamps.Format)}]");
+            var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -1136,9 +1136,9 @@ public class TerminalTester
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
-            TimeProvider.Freeze(now);
+            GlobalTimeProvider.Freeze(now);
 
-            var timestamp = string.Format($"[{TimeProvider.Now.ToString(options.TimeStamps.Format)}]");
+            var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -1362,9 +1362,9 @@ public class TerminalTester
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
-            TimeProvider.Freeze(now);
+            GlobalTimeProvider.Freeze(now);
 
-            var timestamp = string.Format($"[{TimeProvider.Now.ToString(options.TimeStamps.Format)}]");
+            var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();
@@ -1629,9 +1629,9 @@ public class TerminalTester
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var now = Fixture.Create<DateTime>();
-            TimeProvider.Freeze(now);
+            GlobalTimeProvider.Freeze(now);
 
-            var timestamp = string.Format($"[{TimeProvider.Now.ToString(options.TimeStamps.Format)}]");
+            var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
             var text = Fixture.Create<string>();
             var args = Fixture.CreateMany<object>().ToArray();

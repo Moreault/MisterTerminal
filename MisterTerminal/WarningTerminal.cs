@@ -5,7 +5,7 @@ public interface IWarningTerminal : ITerminalWriter
 
 }
 
-[AutoInject]
+[AutoInject(ServiceLifetime.Scoped)]
 public class WarningTerminal : TerminalWriter, IWarningTerminal
 {
     public WarningTerminal(IConsole console, IOptions<TerminalSettings> settings, IDmlAnsiConverter dmlAnsiConverter) : base(console, settings, dmlAnsiConverter)

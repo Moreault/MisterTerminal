@@ -5,7 +5,7 @@ public interface INotificationTerminal : ITerminalWriter
 
 }
 
-[AutoInject]
+[AutoInject(ServiceLifetime.Scoped)]
 public class NotificationTerminal : TerminalWriter, INotificationTerminal
 {
     public NotificationTerminal(IConsole console, IOptions<TerminalSettings> settings, IDmlAnsiConverter dmlAnsiConverter) : base(console, settings, dmlAnsiConverter)

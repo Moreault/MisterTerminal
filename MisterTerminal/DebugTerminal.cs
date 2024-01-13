@@ -6,7 +6,7 @@ public interface IDebugTerminal : ITerminalWriter
 }
 
 #if DEBUG
-[AutoInject]
+[AutoInject(ServiceLifetime.Scoped)]
 public class DebugTerminal : TerminalWriter, IDebugTerminal
 {
     public DebugTerminal(IConsole console, IOptions<TerminalSettings> settings, IDmlAnsiConverter dmlAnsiConverter) : base(console, settings, dmlAnsiConverter)
@@ -21,7 +21,7 @@ public class DebugTerminal : TerminalWriter, IDebugTerminal
 
 }
 #else
-[AutoInject]
+[AutoInject(ServiceLifetime.Scoped)]
 public class DebugTerminal :  IDebugTerminal
 {
     public Color BackgroundColor { get; set; }
