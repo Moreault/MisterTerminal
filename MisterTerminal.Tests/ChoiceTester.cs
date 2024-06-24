@@ -56,7 +56,7 @@ public class ChoiceTester
             //Arrange
 
             //Act
-            var action = () => new Choice(text, Fixture.Create<Action>());
+            var action = () => new Choice(text, Dummy.Create<Action>());
 
             //Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("text");
@@ -68,7 +68,7 @@ public class ChoiceTester
             //Arrange
 
             //Act
-            var action = () => new Choice(Fixture.Create<string>(), null!);
+            var action = () => new Choice(Dummy.Create<string>(), null!);
 
             //Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("action");
@@ -78,8 +78,8 @@ public class ChoiceTester
         public void WhenTextIsNotEmpty_SetText()
         {
             //Arrange
-            var text = Fixture.Create<string>();
-            var action = Fixture.Create<Action>();
+            var text = Dummy.Create<string>();
+            var action = Dummy.Create<Action>();
 
             //Act
             var result = new Choice(text, action);
@@ -92,8 +92,8 @@ public class ChoiceTester
         public void WhenActionIsNotNull_SetAction()
         {
             //Arrange
-            var text = Fixture.Create<string>();
-            var action = Fixture.Create<Action>();
+            var text = Dummy.Create<string>();
+            var action = Dummy.Create<Action>();
 
             //Act
             var result = new Choice(text, action);

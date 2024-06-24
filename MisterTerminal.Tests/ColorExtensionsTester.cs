@@ -10,7 +10,7 @@ public class ColorExtensionsTester
         public void Always_ReturnAnsiTrueColor()
         {
             //Arrange
-            var color = Fixture.Create<Color>();
+            var color = Dummy.Create<Color>();
 
             //Act
             var result = color.ToAnsiTrueColor();
@@ -27,7 +27,7 @@ public class ColorExtensionsTester
         public void Always_ReturnAnsiTrueColor()
         {
             //Arrange
-            var color = Fixture.Create<Color>();
+            var color = Dummy.Create<Color>();
 
             //Act
             var result = color.ToAnsiTrueColorHighlight();
