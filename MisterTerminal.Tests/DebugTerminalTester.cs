@@ -1,4 +1,5 @@
 ﻿namespace MisterTerminal.Tests;
+
 #if DEBUG
 [TestClass]
 public class DebugTerminalTester

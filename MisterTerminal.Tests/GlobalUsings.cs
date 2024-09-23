@@ -17,7 +17,6 @@ global using ToolBX.MisterTerminal.Settings;
 global using ToolBX.NetAbstractions;
 global using ToolBX.NetAbstractions.Diagnostics;
 global using ToolBX.OPEX;
+global using ToolBX.TimeProvider;
 global using WhiteJackalStudio.TestTools;
 global using ConsoleColor = System.ConsoleColor;
-//TODO 3.0.0 : global using ToolBX.TimeProvider;
-global using GlobalTimeProvider = ToolBX.TimeProvider.TimeProvider;
