@@ -10,12 +10,12 @@ public abstract class TerminalTesterBase : Tester<Terminal>
     {
         base.InitializeTest();
 
-        var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+        var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
         SetupOptions(options);
         ForegroundColor = options.Main!.Color!.Foreground!.Value;
-        GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Fixture.Create<string>());
-        GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(Fixture.Create<ConsoleKeyInfo>());
-        GetMock<IConsole>().Setup(x => x.ReadKey()).Returns(Fixture.Create<ConsoleKeyInfo>());
+        GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Dummy.Create<string>());
+        GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(Dummy.Create<ConsoleKeyInfo>());
+        GetMock<IConsole>().Setup(x => x.ReadKey()).Returns(Dummy.Create<ConsoleKeyInfo>());
 
         YesKey = (ConsoleKey)Text.Yes.ToUpperInvariant()[0];
         NoKey = (ConsoleKey)Text.No.ToUpperInvariant()[0];
@@ -32,7 +32,7 @@ public class TerminalTester
         public void WhenBackgroundColorIsNullInSettings_UseGlobalDefaultColor()
         {
             //Arrange
-            SetupOptions(Fixture.Create<TerminalSettings>() with { Main = null });
+            SetupOptions(Dummy.Create<TerminalSettings>() with { Main = null });
 
             //Act
             //Constructor
@@ -45,7 +45,7 @@ public class TerminalTester
         public void WhenForeroundColorIsNullInSettings_UseGlobalDefaultColor()
         {
             //Arrange
-            SetupOptions(Fixture.Create<TerminalSettings>() with { Main = null });
+            SetupOptions(Dummy.Create<TerminalSettings>() with { Main = null });
 
             //Act
             //Constructor
@@ -88,7 +88,7 @@ public class TerminalTester
         public void WhenSettingColor_ReturnNewColor()
         {
             //Arrange
-            var value = Fixture.Create<Color>();
+            var value = Dummy.Create<Color>();
 
             //Act
             Instance.BackgroundColor = value;
@@ -103,14 +103,14 @@ public class TerminalTester
         {
             //Arrange
 
-            var value = Fixture.Create<Color>();
+            var value = Dummy.Create<Color>();
             Instance.BackgroundColor = value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Highlight(value);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -127,14 +127,14 @@ public class TerminalTester
         protected override void InitializeTest()
         {
             base.InitializeTest();
-            SetupOptions(Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } });
+            SetupOptions(Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } });
         }
 
         [TestMethod]
         public void WhenSettingColor_ReturnNewColor()
         {
             //Arrange
-            var value = Fixture.Create<Color>();
+            var value = Dummy.Create<Color>();
 
             //Act
             Instance.ForegroundColor = value;
@@ -147,14 +147,14 @@ public class TerminalTester
         public void WhenWriting_ApplyColorToText()
         {
             //Arrange
-            var value = Fixture.Create<Color>();
+            var value = Dummy.Create<Color>();
             Instance.ForegroundColor = value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(value);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -175,10 +175,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_Throw(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             var action = () => Instance.Write(text, args);
@@ -191,20 +191,20 @@ public class TerminalTester
         public void WhenUsingTimestamps_IncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var now = Fixture.Create<DateTime>();
+            var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
 
             var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = $"{timestamp} {text}".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -218,15 +218,15 @@ public class TerminalTester
         public void WhenNotUsingTimestamps_DoNotIncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -240,14 +240,14 @@ public class TerminalTester
         public void WhenIsFormattableString_FormatString()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
             var textWithColor = "This string is very formattable".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -261,15 +261,15 @@ public class TerminalTester
         public void Always_TriggerWroteEvent()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
@@ -293,10 +293,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_DoNotThrow(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             var action = () => Instance.TryWrite(text, args);
@@ -312,10 +312,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_DoNotWriteToConsole(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             Instance.TryWrite(text, args);
@@ -332,10 +332,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_DoNotTriggerEvent(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var triggers = new List<WriteEventArgs>();
             Instance.Wrote += (_, eventArgs) => triggers.Add(eventArgs);
@@ -351,20 +351,20 @@ public class TerminalTester
         public void WhenUsingTimestamps_IncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var now = Fixture.Create<DateTime>();
+            var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
 
             var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = $"{timestamp} {text}".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -378,15 +378,15 @@ public class TerminalTester
         public void WhenNotUsingTimestamps_DoNotIncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -400,14 +400,14 @@ public class TerminalTester
         public void WhenIsFormattableString_FormatString()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
             var textWithColor = "This string is very formattable".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -421,15 +421,15 @@ public class TerminalTester
         public void Always_TriggerWroteEvent()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
@@ -450,10 +450,10 @@ public class TerminalTester
         public void Always_ResetBackgroundColorToDefault()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            Instance.BackgroundColor = Fixture.Create<Color>();
+            Instance.BackgroundColor = Dummy.Create<Color>();
 
             //Act
             Instance.ResetColor();
@@ -467,10 +467,10 @@ public class TerminalTester
         public void Always_ResetForegroundColorToDefault()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            Instance.ForegroundColor = Fixture.Create<Color>();
+            Instance.ForegroundColor = Dummy.Create<Color>();
 
             //Act
             Instance.ResetColor();
@@ -554,10 +554,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_Throw(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             var action = () => Instance.Ask(text, args);
@@ -570,20 +570,20 @@ public class TerminalTester
         public void WhenUsingTimestamps_IncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var now = Fixture.Create<DateTime>();
+            var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
 
             var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = $"{timestamp} {text}".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -597,15 +597,15 @@ public class TerminalTester
         public void WhenNotUsingTimestamps_DoNotIncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -619,14 +619,14 @@ public class TerminalTester
         public void WhenIsFormattableString_FormatString()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
             var textWithColor = "This string is very formattable".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -640,15 +640,15 @@ public class TerminalTester
         public void Always_TriggerWroteEvent()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
@@ -668,18 +668,18 @@ public class TerminalTester
         public void WhenResponseIsNullOrEmpty_KeepAskingUntilItsNot(string response)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var validResponse = Fixture.Create<string>();
+            var validResponse = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response).Returns(response).Returns(response).Returns(validResponse);
 
             //Act
@@ -693,18 +693,18 @@ public class TerminalTester
         public void WhenResponseIsValidRightAway_ReturnThat()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var response = Fixture.Create<string>();
+            var response = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response);
 
             //Act
@@ -725,10 +725,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_Throw(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             var action = () => Instance.AskOnSameLine(text, args);
@@ -741,20 +741,20 @@ public class TerminalTester
         public void WhenUsingTimestamps_IncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var now = Fixture.Create<DateTime>();
+            var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
 
             var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = $"{timestamp} {text}".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -768,15 +768,15 @@ public class TerminalTester
         public void WhenNotUsingTimestamps_DoNotIncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -790,14 +790,14 @@ public class TerminalTester
         public void WhenIsFormattableString_FormatString()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
             var textWithColor = "This string is very formattable".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -811,15 +811,15 @@ public class TerminalTester
         public void Always_TriggerWroteEvent()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
@@ -839,18 +839,18 @@ public class TerminalTester
         public void WhenResponseIsNullOrEmpty_KeepAskingUntilItsNot(string response)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var validResponse = Fixture.Create<string>();
+            var validResponse = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response).Returns(response).Returns(response).Returns(validResponse);
 
             //Act
@@ -864,18 +864,18 @@ public class TerminalTester
         public void WhenResponseIsValidRightAway_ReturnThat()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var response = Fixture.Create<string>();
+            var response = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response);
 
             //Act
@@ -889,18 +889,18 @@ public class TerminalTester
         public void Always_DoNotBreakLineUntilAnswer()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var response = Fixture.Create<string>();
+            var response = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response);
 
             //Act
@@ -921,10 +921,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_DoNotThrow(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             var action = () => Instance.TryAsk(text, args);
@@ -937,20 +937,20 @@ public class TerminalTester
         public void WhenUsingTimestamps_IncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var now = Fixture.Create<DateTime>();
+            var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
 
             var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = $"{timestamp} {text}".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -964,15 +964,15 @@ public class TerminalTester
         public void WhenNotUsingTimestamps_DoNotIncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -986,14 +986,14 @@ public class TerminalTester
         public void WhenIsFormattableString_FormatString()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
             var textWithColor = "This string is very formattable".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1007,15 +1007,15 @@ public class TerminalTester
         public void Always_TriggerWroteEvent()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
@@ -1034,18 +1034,18 @@ public class TerminalTester
         public void WhenResponseIsNullOrEmpty_ReturnEmptyString(string response)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var validResponse = Fixture.Create<string>();
+            var validResponse = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response).Returns(response).Returns(response).Returns(validResponse);
 
             //Act
@@ -1059,15 +1059,15 @@ public class TerminalTester
         public void WhenResponseIsWhiteSpace_ReturnWhiteSpace()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns("  ");
@@ -1083,18 +1083,18 @@ public class TerminalTester
         public void WhenResponseIsValidRightAway_ReturnThat()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var response = Fixture.Create<string>();
+            var response = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response);
 
             //Act
@@ -1115,10 +1115,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_DoNotThrow(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             var action = () => Instance.TryAskOnSameLine(text, args);
@@ -1131,20 +1131,20 @@ public class TerminalTester
         public void WhenUsingTimestamps_IncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var now = Fixture.Create<DateTime>();
+            var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
 
             var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = $"{timestamp} {text}".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1158,15 +1158,15 @@ public class TerminalTester
         public void WhenNotUsingTimestamps_DoNotIncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1180,14 +1180,14 @@ public class TerminalTester
         public void WhenIsFormattableString_FormatString()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
             var textWithColor = "This string is very formattable".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1201,15 +1201,15 @@ public class TerminalTester
         public void Always_TriggerWroteEvent()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
@@ -1228,18 +1228,18 @@ public class TerminalTester
         public void WhenResponseIsNullOrEmpty_ReturnEmpty(string response)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var validResponse = Fixture.Create<string>();
+            var validResponse = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response).Returns(response).Returns(response).Returns(validResponse);
 
             //Act
@@ -1253,15 +1253,15 @@ public class TerminalTester
         public void WhenResponseIsWhiteSpace_ReturnThat()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var response = "  ";
@@ -1278,18 +1278,18 @@ public class TerminalTester
         public void WhenResponseIsValidRightAway_ReturnThat()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var response = Fixture.Create<string>();
+            var response = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response);
 
             //Act
@@ -1303,18 +1303,18 @@ public class TerminalTester
         public void Always_DoNotBreakLineUntilAnswer()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            var response = Fixture.Create<string>();
+            var response = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns(response);
 
             //Act
@@ -1331,7 +1331,7 @@ public class TerminalTester
         protected override void InitializeTest()
         {
             base.InitializeTest();
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
         }
 
         [TestMethod]
@@ -1341,10 +1341,10 @@ public class TerminalTester
         public void WhenTextIsNullOrWhiteSpace_Throw(string text)
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>();
+            var options = Dummy.Create<TerminalSettings>();
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             var action = () => Instance.AskSecret(text, args);
@@ -1357,20 +1357,20 @@ public class TerminalTester
         public void WhenUsingTimestamps_IncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var now = Fixture.Create<DateTime>();
+            var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
 
             var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = $"{timestamp} {text}".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1384,15 +1384,15 @@ public class TerminalTester
         public void WhenNotUsingTimestamps_DoNotIncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1406,14 +1406,14 @@ public class TerminalTester
         public void WhenIsFormattableString_FormatString()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
             var textWithColor = "This string is very formattable".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1427,15 +1427,15 @@ public class TerminalTester
         public void Always_TriggerWroteEvent()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
@@ -1452,18 +1452,18 @@ public class TerminalTester
         public void WhenPressingEnterRightAway_ReturnEmptySecret()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.AskSecret(text, args);
@@ -1476,22 +1476,22 @@ public class TerminalTester
         public void WhenEnteringTextBeforePressingEnter_ReturnAllText()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
                 .Returns(new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false))
                 .Returns(new ConsoleKeyInfo('t', ConsoleKey.T, false, false, false))
                 .Returns(new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.AskSecret(text, args);
@@ -1504,23 +1504,23 @@ public class TerminalTester
         public void WhenUsingBackspaceAsFirstCharacter_DoNothing()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Backspace, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Backspace, false, false, false))
                 .Returns(new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false))
                 .Returns(new ConsoleKeyInfo('t', ConsoleKey.T, false, false, false))
                 .Returns(new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.AskSecret(text, args);
@@ -1533,23 +1533,23 @@ public class TerminalTester
         public void WhenUsingBackspace_DeleteLastCharacter()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
                 .Returns(new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false))
                 .Returns(new ConsoleKeyInfo('t', ConsoleKey.T, false, false, false))
                 .Returns(new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Backspace, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Backspace, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.AskSecret(text, args);
@@ -1562,29 +1562,29 @@ public class TerminalTester
         public void Always_IgnoreControlKeys()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
                 .Returns(new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.LeftArrow, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Escape, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.UpArrow, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.LeftArrow, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Escape, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.UpArrow, false, false, false))
                 .Returns(new ConsoleKeyInfo('t', ConsoleKey.T, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.DownArrow, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.DownArrow, false, false, false))
                 .Returns(new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.RightArrow, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.PageUp, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.PageDown, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.RightArrow, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.PageUp, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.PageDown, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.AskSecret(text, args);
@@ -1600,7 +1600,7 @@ public class TerminalTester
         protected override void InitializeTest()
         {
             base.InitializeTest();
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
         }
 
         [TestMethod]
@@ -1611,7 +1611,7 @@ public class TerminalTester
         {
             //Arrange
 
-            var args = Fixture.CreateMany<object>().ToArray();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             //Act
             var action = () => Instance.TryAskSecret(text, args);
@@ -1624,20 +1624,20 @@ public class TerminalTester
         public void WhenUsingTimestamps_IncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var now = Fixture.Create<DateTime>();
+            var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
 
             var timestamp = string.Format($"[{GlobalTimeProvider.Now.ToString(options.TimeStamps.Format)}]");
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = $"{timestamp} {text}".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1651,15 +1651,15 @@ public class TerminalTester
         public void WhenNotUsingTimestamps_DoNotIncludeTimestamps()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1673,14 +1673,14 @@ public class TerminalTester
         public void WhenIsFormattableString_FormatString()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
             var textWithColor = "This string is very formattable".Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1694,15 +1694,15 @@ public class TerminalTester
         public void Always_TriggerWroteEvent()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             var triggers = new List<WriteEventArgs>();
@@ -1719,18 +1719,18 @@ public class TerminalTester
         public void WhenPressingEnterRightAway_ReturnEmptySecret()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.TryAskSecret(text, args);
@@ -1743,22 +1743,22 @@ public class TerminalTester
         public void WhenEnteringTextBeforePressingEnter_ReturnAllText()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
                 .Returns(new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false))
                 .Returns(new ConsoleKeyInfo('t', ConsoleKey.T, false, false, false))
                 .Returns(new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.TryAskSecret(text, args);
@@ -1771,23 +1771,23 @@ public class TerminalTester
         public void WhenUsingBackspaceAsFirstCharacter_DoNothing()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Backspace, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Backspace, false, false, false))
                 .Returns(new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false))
                 .Returns(new ConsoleKeyInfo('t', ConsoleKey.T, false, false, false))
                 .Returns(new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.TryAskSecret(text, args);
@@ -1800,23 +1800,23 @@ public class TerminalTester
         public void WhenUsingBackspace_DeleteLastCharacter()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
                 .Returns(new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false))
                 .Returns(new ConsoleKeyInfo('t', ConsoleKey.T, false, false, false))
                 .Returns(new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Backspace, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Backspace, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.TryAskSecret(text, args);
@@ -1829,29 +1829,29 @@ public class TerminalTester
         public void Always_IgnoreControlKeys()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.CreateMany<object>().ToArray();
+            var text = Dummy.Create<string>();
+            var args = Dummy.CreateMany<object>().ToArray();
 
             var textWithColor = text.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
                 .Returns(new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.LeftArrow, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Escape, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.UpArrow, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.LeftArrow, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Escape, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.UpArrow, false, false, false))
                 .Returns(new ConsoleKeyInfo('t', ConsoleKey.T, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.DownArrow, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.DownArrow, false, false, false))
                 .Returns(new ConsoleKeyInfo('f', ConsoleKey.F, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.RightArrow, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.PageUp, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.PageDown, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.RightArrow, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.PageUp, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.PageDown, false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.TryAskSecret(text, args);
@@ -1884,12 +1884,12 @@ public class TerminalTester
         public void Always_WritePressAnyKeyMessage()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var textWithColor = Text.PressAnyKeyToContinue.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1903,12 +1903,12 @@ public class TerminalTester
         public void Always_ReadAndInterceptKey()
         {
             //Arrange
-            var options = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
             var foregroundColor = options.Main!.Color!.Foreground!.Value;
 
             var textWithColor = Text.PressAnyKeyToContinue.Color(foregroundColor);
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
             //Act
@@ -1927,9 +1927,9 @@ public class TerminalTester
         protected override void InitializeTest()
         {
             base.InitializeTest();
-            _settings = Fixture.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
+            _settings = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             SetupOptions(_settings);
-            var key = new ConsoleKeyInfo(Fixture.Create<char>(), new List<ConsoleKey> { YesKey, NoKey }.GetRandom(), false, false, false);
+            var key = new ConsoleKeyInfo(Dummy.Create<char>(), new List<ConsoleKey> { YesKey, NoKey }.GetRandom(), false, false, false);
             GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(key);
         }
 
@@ -1939,8 +1939,8 @@ public class TerminalTester
             //Arrange
             var foregroundColor = _settings!.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.Create<object[]>();
+            var text = Dummy.Create<string>();
+            var args = Dummy.Create<object[]>();
 
             var textWithColor = $"{text} ({YesKey}/{NoKey})".Color(foregroundColor);
             var formattedText = textWithColor;
@@ -1959,14 +1959,14 @@ public class TerminalTester
             //Arrange
             var foregroundColor = _settings!.Main!.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.Create<object[]>();
+            var text = Dummy.Create<string>();
+            var args = Dummy.Create<object[]>();
 
             var textWithColor = $"{text} ({YesKey}/{NoKey})".Color(foregroundColor);
             var formattedText = textWithColor;
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), YesKey, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), YesKey, false, false, false));
 
             //Act
             var result = Instance.AskForConfirmation(text, args);
@@ -1981,14 +1981,14 @@ public class TerminalTester
             //Arrange
             var foregroundColor = _settings!.Main.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.Create<object[]>();
+            var text = Dummy.Create<string>();
+            var args = Dummy.Create<object[]>();
 
             var textWithColor = $"{text} ({YesKey}/{NoKey})".Color(foregroundColor);
             var formattedText = textWithColor;
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert(textWithColor)).Returns(formattedText);
 
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), NoKey, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), NoKey, false, false, false));
 
             //Act
             var result = Instance.AskForConfirmation(text, args);
@@ -2003,8 +2003,8 @@ public class TerminalTester
             //Arrange
             var foregroundColor = _settings!.Main.Color!.Foreground!.Value;
 
-            var text = Fixture.Create<string>();
-            var args = Fixture.Create<object[]>();
+            var text = Dummy.Create<string>();
+            var args = Dummy.Create<object[]>();
 
             var textWithColor = $"{text} ({YesKey}/{NoKey})".Color(foregroundColor);
             var formattedText = textWithColor;
@@ -2012,12 +2012,12 @@ public class TerminalTester
 
             var invalidKeys = Enum.GetValues<ConsoleKey>().Where(x => x != YesKey && x != NoKey).ToList();
 
-            var key = new ConsoleKeyInfo(Fixture.Create<char>(), new List<ConsoleKey> { YesKey, NoKey }.GetRandom(), false, false, false);
+            var key = new ConsoleKeyInfo(Dummy.Create<char>(), new List<ConsoleKey> { YesKey, NoKey }.GetRandom(), false, false, false);
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), invalidKeys.GetRandom(), false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), invalidKeys.GetRandom(), false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), invalidKeys.GetRandom(), false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), invalidKeys.GetRandom(), false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), invalidKeys.GetRandom(), false, false, false))
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), invalidKeys.GetRandom(), false, false, false))
                 .Returns(key);
 
             //Act
@@ -2035,15 +2035,15 @@ public class TerminalTester
         public void Always_WriteUsernameText()
         {
             //Arrange
-            var formattedUsernameText = Fixture.Create<string>();
+            var formattedUsernameText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Username} : ".Color(ForegroundColor))).Returns(formattedUsernameText);
 
-            var formattedPasswordText = Fixture.Create<string>();
+            var formattedPasswordText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Password} : ".Color(ForegroundColor))).Returns(formattedPasswordText);
 
-            GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Fixture.Create<string>());
+            GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Dummy.Create<string>());
 
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             Instance.AskForLogin();
@@ -2056,15 +2056,15 @@ public class TerminalTester
         public void Always_WritePasswordText()
         {
             //Arrange
-            var formattedUsernameText = Fixture.Create<string>();
+            var formattedUsernameText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Username} : ".Color(ForegroundColor))).Returns(formattedUsernameText);
 
-            var formattedPasswordText = Fixture.Create<string>();
+            var formattedPasswordText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Password} : ".Color(ForegroundColor))).Returns(formattedPasswordText);
 
-            GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Fixture.Create<string>());
+            GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Dummy.Create<string>());
 
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             Instance.AskForLogin();
@@ -2077,16 +2077,16 @@ public class TerminalTester
         public void WhenUsernameIsBlank_KeepAskingUntilGiven()
         {
             //Arrange
-            var formattedUsernameText = Fixture.Create<string>();
+            var formattedUsernameText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Username} : ".Color(ForegroundColor))).Returns(formattedUsernameText);
 
-            var formattedPasswordText = Fixture.Create<string>();
+            var formattedPasswordText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Password} : ".Color(ForegroundColor))).Returns(formattedPasswordText);
 
-            var validResponse = Fixture.Create<string>();
+            var validResponse = Dummy.Create<string>();
             GetMock<IConsole>().SetupSequence(x => x.ReadLine()).Returns((string)null!).Returns("   ").Returns(string.Empty).Returns(validResponse);
 
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.AskForLogin();
@@ -2099,15 +2099,15 @@ public class TerminalTester
         public void WhenPasswordIsBlank_ReturnLoginInfo()
         {
             //Arrange
-            var formattedUsernameText = Fixture.Create<string>();
+            var formattedUsernameText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Username} : ".Color(ForegroundColor))).Returns(formattedUsernameText);
 
-            var formattedPasswordText = Fixture.Create<string>();
+            var formattedPasswordText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Password} : ".Color(ForegroundColor))).Returns(formattedPasswordText);
 
-            GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Fixture.Create<string>());
+            GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Dummy.Create<string>());
 
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.AskForLogin();
@@ -2120,13 +2120,13 @@ public class TerminalTester
         public void WhenPasswordIsNotBlank_ReturnLoginInfo()
         {
             //Arrange
-            var formattedUsernameText = Fixture.Create<string>();
+            var formattedUsernameText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Username} : ".Color(ForegroundColor))).Returns(formattedUsernameText);
 
-            var formattedPasswordText = Fixture.Create<string>();
+            var formattedPasswordText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{Text.Password} : ".Color(ForegroundColor))).Returns(formattedPasswordText);
 
-            GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Fixture.Create<string>());
+            GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(Dummy.Create<string>());
 
             GetMock<IConsole>().SetupSequence(x => x.ReadAndInterceptKey())
                 .Returns(new ConsoleKeyInfo('H', ConsoleKey.H, false, false, false))
@@ -2134,7 +2134,7 @@ public class TerminalTester
                 .Returns(new ConsoleKeyInfo('l', ConsoleKey.L, false, false, false))
                 .Returns(new ConsoleKeyInfo('l', ConsoleKey.L, false, false, false))
                 .Returns(new ConsoleKeyInfo('o', ConsoleKey.O, false, false, false))
-                .Returns(new ConsoleKeyInfo(Fixture.Create<char>(), ConsoleKey.Enter, false, false, false));
+                .Returns(new ConsoleKeyInfo(Dummy.Create<char>(), ConsoleKey.Enter, false, false, false));
 
             //Act
             var result = Instance.AskForLogin();
@@ -2177,9 +2177,9 @@ public class TerminalTester
         public void WhenThereIsOneDuplicateChoice_Throw()
         {
             //Arrange
-            var choices = Fixture.CreateMany<Choice>().ToList();
+            var choices = Dummy.CreateMany<Choice>().ToList();
             var duplicateIdentifier = choices.GetRandom().Identifier;
-            choices.Add(Fixture.Create<Choice>() with { Identifier = duplicateIdentifier });
+            choices.Add(Dummy.Create<Choice>() with { Identifier = duplicateIdentifier });
 
             //Act
             var action = () => Instance.AskChoice(choices.ToArray());
@@ -2192,7 +2192,7 @@ public class TerminalTester
         public void WhenThereAreManyDuplicateChoices_Throw()
         {
             //Arrange
-            var choices = Fixture.CreateMany<Choice>().ToList();
+            var choices = Dummy.CreateMany<Choice>().ToList();
             var duplicateIdentifiers = choices.Select(x => x.Identifier);
             choices = choices.Concat(choices).ToList();
 
@@ -2208,11 +2208,11 @@ public class TerminalTester
         public void WhenThereIsOnlyOneChoice_DisplayTheOneChoice()
         {
             //Arrange
-            var choice = Fixture.Create<Choice>();
+            var choice = Dummy.Create<Choice>();
 
             GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(choice.Identifier.ToLowerInvariant());
 
-            var formattedText = Fixture.Create<string>();
+            var formattedText = Dummy.Create<string>();
             GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{choice.Identifier}. {choice.Text}".Color(ForegroundColor))).Returns(formattedText);
 
             //Act
@@ -2226,14 +2226,14 @@ public class TerminalTester
         public void WhenThereAreManyChoices_DisplayAllChoices()
         {
             //Arrange
-            var choices = Fixture.CreateMany<Choice>().ToArray();
+            var choices = Dummy.CreateMany<Choice>().ToArray();
 
             GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(choices.GetRandom().Identifier.ToLowerInvariant());
 
             var formattedTexts = new List<string>();
             foreach (var choice in choices)
             {
-                var formattedText = Fixture.Create<string>();
+                var formattedText = Dummy.Create<string>();
                 formattedTexts.Add(formattedText);
                 GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{choice.Identifier}. {choice.Text}".Color(ForegroundColor))).Returns(formattedText);
             }
@@ -2252,20 +2252,20 @@ public class TerminalTester
             //Arrange
             var choices = new List<Choice>
             {
-                new() { Identifier = "a", Text = Fixture.Create<string>(), Action = Fixture.Create<Action>()},
-                new() { Identifier = "b", Text = Fixture.Create<string>(), Action = Fixture.Create<Action>()},
-                new() { Identifier = "c", Text = Fixture.Create<string>(), Action = Fixture.Create<Action>()},
-                Fixture.Create<Choice>()
+                new() { Identifier = "a", Text = Dummy.Create<string>(), Action = Dummy.Create<Action>()},
+                new() { Identifier = "b", Text = Dummy.Create<string>(), Action = Dummy.Create<Action>()},
+                new() { Identifier = "c", Text = Dummy.Create<string>(), Action = Dummy.Create<Action>()},
+                Dummy.Create<Choice>()
             };
 
             GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(choices.GetRandom().Identifier.ToLowerInvariant());
-            GetMock<IConsole>().Setup(x => x.ReadKey()).Throws(Fixture.Create<Exception>());
-            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Throws(Fixture.Create<Exception>());
+            GetMock<IConsole>().Setup(x => x.ReadKey()).Throws(Dummy.Create<Exception>());
+            GetMock<IConsole>().Setup(x => x.ReadAndInterceptKey()).Throws(Dummy.Create<Exception>());
 
             var formattedTexts = new List<string>();
             foreach (var choice in choices)
             {
-                var formattedText = Fixture.Create<string>();
+                var formattedText = Dummy.Create<string>();
                 formattedTexts.Add(formattedText);
                 GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{choice.Identifier}. {choice.Text}".Color(ForegroundColor))).Returns(formattedText);
             }
@@ -2284,18 +2284,18 @@ public class TerminalTester
             //Arrange
             var choices = new List<Choice>
             {
-                new() { Identifier = "a", Text = Fixture.Create<string>(), Action = Fixture.Create<Action>()},
-                new() { Identifier = "b", Text = Fixture.Create<string>(), Action = Fixture.Create<Action>()},
-                new() { Identifier = "c", Text = Fixture.Create<string>(), Action = Fixture.Create<Action>()},
+                new() { Identifier = "a", Text = Dummy.Create<string>(), Action = Dummy.Create<Action>()},
+                new() { Identifier = "b", Text = Dummy.Create<string>(), Action = Dummy.Create<Action>()},
+                new() { Identifier = "c", Text = Dummy.Create<string>(), Action = Dummy.Create<Action>()},
             };
 
-            GetMock<IConsole>().Setup(x => x.ReadLine()).Throws(Fixture.Create<Exception>());
-            GetMock<IConsole>().Setup(x => x.ReadKey()).Returns(new ConsoleKeyInfo(choices.GetRandom().Identifier.First(), Fixture.Create<ConsoleKey>(), Fixture.Create<bool>(), Fixture.Create<bool>(), Fixture.Create<bool>()));
+            GetMock<IConsole>().Setup(x => x.ReadLine()).Throws(Dummy.Create<Exception>());
+            GetMock<IConsole>().Setup(x => x.ReadKey()).Returns(new ConsoleKeyInfo(choices.GetRandom().Identifier.First(), Dummy.Create<ConsoleKey>(), Dummy.Create<bool>(), Dummy.Create<bool>(), Dummy.Create<bool>()));
 
             var formattedTexts = new List<string>();
             foreach (var choice in choices)
             {
-                var formattedText = Fixture.Create<string>();
+                var formattedText = Dummy.Create<string>();
                 formattedTexts.Add(formattedText);
                 GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{choice.Identifier}. {choice.Text}".Color(ForegroundColor))).Returns(formattedText);
             }
@@ -2312,15 +2312,15 @@ public class TerminalTester
         public void WhenMakingChoice_ExecuteAssociatedAction()
         {
             //Arrange
-            var choices = Fixture.CreateMany<Choice>().ToList();
+            var choices = Dummy.CreateMany<Choice>().ToList();
             var isExecuted = false;
-            choices.Add(Fixture.Build<Choice>().With(x => x.Action, () => isExecuted = true).Create());
+            choices.Add(Dummy.Build<Choice>().With(x => x.Action, () => isExecuted = true).Create());
 
             GetMock<IConsole>().Setup(x => x.ReadLine()).Returns(choices.Last().Identifier.ToLowerInvariant());
             
             foreach (var choice in choices)
             {
-                var formattedText = Fixture.Create<string>();
+                var formattedText = Dummy.Create<string>();
                 GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{choice.Identifier}. {choice.Text}".Color(ForegroundColor))).Returns(formattedText);
             }
 
@@ -2338,15 +2338,15 @@ public class TerminalTester
         public void WhenThereAreEmptyIdentifiers_DoNotThrow(string identifier)
         {
             //Arrange
-            var choices = Fixture.Build<Choice>().With(x => x.Identifier, identifier).CreateMany().ToList();
+            var choices = Dummy.Build<Choice>().With(x => x.Identifier, identifier).CreateMany().ToList();
 
             var identifiers = new List<string> { "1", "2", "3" };
 
-            GetMock<IConsole>().Setup(x => x.ReadKey()).Returns(new ConsoleKeyInfo(identifiers.GetRandom().First(), Fixture.Create<ConsoleKey>(), Fixture.Create<bool>(), Fixture.Create<bool>(), Fixture.Create<bool>()));
+            GetMock<IConsole>().Setup(x => x.ReadKey()).Returns(new ConsoleKeyInfo(identifiers.GetRandom().First(), Dummy.Create<ConsoleKey>(), Dummy.Create<bool>(), Dummy.Create<bool>(), Dummy.Create<bool>()));
 
             foreach (var choice in choices)
             {
-                var formattedText = Fixture.Create<string>();
+                var formattedText = Dummy.Create<string>();
                 GetMock<IDmlAnsiConverter>().Setup(x => x.Convert($"{choice.Identifier}. {choice.Text}".Color(ForegroundColor))).Returns(formattedText);
             }
 

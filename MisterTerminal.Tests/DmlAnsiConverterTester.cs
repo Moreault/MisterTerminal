@@ -25,8 +25,8 @@ public class DmlAnsiConverterTester
         public void WhenContainsColorTags_ConvertToProperAnsiColorCode()
         {
             //Arrange
-            var color = Fixture.Create<Color>();
-            var value = Fixture.Create<string>();
+            var color = Dummy.Create<Color>();
+            var value = Dummy.Create<string>();
 
             var dmlString = new DmlString(new DmlSubstringEntry[]
             {
@@ -48,8 +48,8 @@ public class DmlAnsiConverterTester
         {
             //Arrange
             GetMock<IEnvironmentVariables>().Setup(x => x.Contains(EnvironmentVariableNames.NoColor)).Returns(true);
-            var color = Fixture.Create<Color>();
-            var value = Fixture.Create<string>();
+            var color = Dummy.Create<Color>();
+            var value = Dummy.Create<string>();
 
             var dmlString = new DmlString(new DmlSubstringEntry[]
             {
@@ -70,7 +70,7 @@ public class DmlAnsiConverterTester
         public void WhenContainsBoldTags_ConvertToProperAnsiCode()
         {
             //Arrange
-            var value = Fixture.Create<string>();
+            var value = Dummy.Create<string>();
 
             var dmlString = new DmlString(new DmlSubstringEntry[]
             {
@@ -91,7 +91,7 @@ public class DmlAnsiConverterTester
         public void WhenContainsUnderlineTags_ConvertToProperAnsiCode()
         {
             //Arrange
-            var value = Fixture.Create<string>();
+            var value = Dummy.Create<string>();
 
             var dmlString = new DmlString(new DmlSubstringEntry[]
             {
@@ -112,7 +112,7 @@ public class DmlAnsiConverterTester
         public void WhenContainsItalicTags_ConvertToProperAnsiCode()
         {
             //Arrange
-            var value = Fixture.Create<string>();
+            var value = Dummy.Create<string>();
 
             var dmlString = new DmlString(new DmlSubstringEntry[]
             {
@@ -133,7 +133,7 @@ public class DmlAnsiConverterTester
         public void WhenContainsStrikeoutTags_ConvertToProperAnsiCode()
         {
             //Arrange
-            var value = Fixture.Create<string>();
+            var value = Dummy.Create<string>();
 
             var dmlString = new DmlString(new DmlSubstringEntry[]
             {
