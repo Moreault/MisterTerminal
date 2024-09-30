@@ -31,7 +31,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="ToolBX.AutoConfig" Version="3.0.0" />
-		<PackageReference Include="ToolBX.AutoInject" Version="3.0.0" />
+		<PackageReference Include="ToolBX.AutoInject" Version="3.0.1" />
 		<PackageReference Include="ToolBX.ColorFull" Version="3.0.0" />
 		<PackageReference Include="ToolBX.DML.NET" Version="3.0.0" />
 		<PackageReference Include="ToolBX.NetAbstractions" Version="3.0.0" />
