@@ -448,7 +448,7 @@ public class NotificationTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.BackgroundColor.Should().Be(options!.Notification!.Color!.Background);
+            Instance.BackgroundColor.Should().BeEquivalentTo(options!.Notification!.Color!.Background);
 
         }
 
@@ -465,7 +465,7 @@ public class NotificationTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.ForegroundColor.Should().Be(options!.Notification!.Color!.Foreground);
+            Instance.ForegroundColor.Should().BeEquivalentTo(options!.Notification!.Color!.Foreground);
         }
     }
 }

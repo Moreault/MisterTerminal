@@ -2,13 +2,13 @@
 
 public class AssemblyInitializer : IAssemblyInitializer
 {
-    public void Configure(IServiceCollection services, IConfiguration configuration)
+    public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
-
-
+        services.AddMisterTerminal();
+        services.AddSingleton<ISampleConsole, SampleConsole>();
     }
 
-    public void Configure(IApplicationBuilder app, IHostEnvironment env)
+    public void Configure(IInitializerContext context)
     {
 
     }

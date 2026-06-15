@@ -449,7 +449,7 @@ public class DebugTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.BackgroundColor.Should().Be(options!.Debug.Color!.Background);
+            Instance.BackgroundColor.Should().BeEquivalentTo(options!.Debug.Color!.Background);
 
         }
 
@@ -466,7 +466,7 @@ public class DebugTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.ForegroundColor.Should().Be(options!.Debug.Color!.Foreground);
+            Instance.ForegroundColor.Should().BeEquivalentTo(options!.Debug.Color!.Foreground);
         }
     }
 }

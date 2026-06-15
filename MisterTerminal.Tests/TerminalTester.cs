@@ -459,7 +459,7 @@ public class TerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.BackgroundColor.Should().Be(options!.Main!.Color!.Background);
+            Instance.BackgroundColor.Should().BeEquivalentTo(options!.Main!.Color!.Background);
 
         }
 
@@ -476,7 +476,7 @@ public class TerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.ForegroundColor.Should().Be(options!.Main!.Color!.Foreground);
+            Instance.ForegroundColor.Should().BeEquivalentTo(options!.Main!.Color!.Foreground);
         }
     }
 
