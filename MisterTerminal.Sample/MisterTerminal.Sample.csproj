@@ -5,6 +5,14 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<!--
+		  PublishAot is intentionally NOT enabled: a full native-AOT publish is currently blocked by
+		  reflection inside upstream ToolBX packages (AutoConfig, AutoInject, AssemblyInitializer and
+		  Reflection4Humans.TypeFetcher) consumed here as NuGet betas. MisterTerminal's own code is
+		  AOT-clean (the library sets IsAotCompatible=true and builds warning-free). Re-enable once
+		  those dependencies ship reflection-free, trimming/AOT-safe registration.
+		-->
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 

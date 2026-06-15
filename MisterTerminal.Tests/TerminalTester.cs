@@ -1979,7 +1979,7 @@ public class TerminalTester
         public void WhenAnsweringNo_ReturnFalse()
         {
             //Arrange
-            var foregroundColor = _settings!.Main.Color!.Foreground!.Value;
+            var foregroundColor = _settings!.Main!.Color!.Foreground!.Value;
 
             var text = Dummy.Create<string>();
             var args = Dummy.Create<object[]>();
@@ -2001,7 +2001,7 @@ public class TerminalTester
         public void WhenAnsweringSomethingElseThanYesOrNo_AskAgainUntilAnswerIsYesOrNo()
         {
             //Arrange
-            var foregroundColor = _settings!.Main.Color!.Foreground!.Value;
+            var foregroundColor = _settings!.Main!.Color!.Foreground!.Value;
 
             var text = Dummy.Create<string>();
             var args = Dummy.Create<object[]>();
