@@ -26,7 +26,12 @@ public class DebugTerminal :  IDebugTerminal
 {
     public Color BackgroundColor { get; set; }
     public Color ForegroundColor { get; set; }
-    public event WriteEventHandler? Wrote;
+private WriteEventHandler? _wrote;
+public event WriteEventHandler Wrote
+{
+    add => _wrote += value;
+    remove => _wrote -= value;
+}
 
     public void Write(string text, params object[]? args)
     {

@@ -5,7 +5,6 @@ public interface ISampleConsole
     void Start();
 }
 
-[AutoInject(ServiceLifetime.Singleton)]
 public class SampleConsole(ITerminal terminal) : ISampleConsole
 {
     public void Start()

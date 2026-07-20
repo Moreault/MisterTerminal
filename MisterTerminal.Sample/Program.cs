@@ -1,1 +1,1 @@
-﻿ConsoleHost.UseStartup<Startup>();
+﻿ConsoleHost.UseStartup(configuration => new Startup(configuration), args);

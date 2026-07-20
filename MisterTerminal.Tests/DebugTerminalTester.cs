@@ -183,7 +183,7 @@ public class DebugTerminalTester
             //Arrange
             var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Debug.Color!.Foreground!.Value;
+            var foregroundColor = options.Debug!.Color!.Foreground!.Value;
 
             var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
@@ -210,7 +210,7 @@ public class DebugTerminalTester
             //Arrange
             var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Debug.Color!.Foreground!.Value;
+            var foregroundColor = options.Debug!.Color!.Foreground!.Value;
 
             var text = Dummy.Create<string>();
             var args = Dummy.CreateMany<object>().ToArray();
@@ -232,7 +232,7 @@ public class DebugTerminalTester
             //Arrange
             var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Debug.Color!.Foreground!.Value;
+            var foregroundColor = options.Debug!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
@@ -253,7 +253,7 @@ public class DebugTerminalTester
             //Arrange
             var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Debug.Color!.Foreground!.Value;
+            var foregroundColor = options.Debug!.Color!.Foreground!.Value;
 
             var text = Dummy.Create<string>();
             var args = Dummy.CreateMany<object>().ToArray();
@@ -343,7 +343,7 @@ public class DebugTerminalTester
             //Arrange
             var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = true } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Debug.Color!.Foreground!.Value;
+            var foregroundColor = options.Debug!.Color!.Foreground!.Value;
 
             var now = Dummy.Create<DateTime>();
             GlobalTimeProvider.Freeze(now);
@@ -370,7 +370,7 @@ public class DebugTerminalTester
             //Arrange
             var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Debug.Color!.Foreground!.Value;
+            var foregroundColor = options.Debug!.Color!.Foreground!.Value;
 
             var text = Dummy.Create<string>();
             var args = Dummy.CreateMany<object>().ToArray();
@@ -392,7 +392,7 @@ public class DebugTerminalTester
             //Arrange
             var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Debug.Color!.Foreground!.Value;
+            var foregroundColor = options.Debug!.Color!.Foreground!.Value;
 
             var text = "This {0} is {1} formattable";
 
@@ -413,7 +413,7 @@ public class DebugTerminalTester
             //Arrange
             var options = Dummy.Create<TerminalSettings>() with { TimeStamps = new TerminalSettings.TimeStampSettings { Use = false } };
             GetMock<IOptions<TerminalSettings>>().Setup(x => x.Value).Returns(options);
-            var foregroundColor = options.Debug.Color!.Foreground!.Value;
+            var foregroundColor = options.Debug!.Color!.Foreground!.Value;
 
             var text = Dummy.Create<string>();
             var args = Dummy.CreateMany<object>().ToArray();
@@ -449,7 +449,7 @@ public class DebugTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.BackgroundColor.Should().Be(options!.Debug.Color!.Background);
+            Instance.BackgroundColor.Should().BeEquivalentTo(options!.Debug!.Color!.Background);
 
         }
 
@@ -466,7 +466,7 @@ public class DebugTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.ForegroundColor.Should().Be(options!.Debug.Color!.Foreground);
+            Instance.ForegroundColor.Should().BeEquivalentTo(options!.Debug!.Color!.Foreground);
         }
     }
 }

@@ -1,6 +1,5 @@
 // Global using directives
 
-global using FluentAssertions;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Options;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,6 +7,8 @@ global using Moq;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
+global using ToolBX.AssertBox;
+global using ToolBX.AssertBox.Assertions;
 global using ToolBX.ColorFull;
 global using ToolBX.DML.NET;
 global using ToolBX.Eloquentest;

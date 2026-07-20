@@ -448,7 +448,7 @@ public class ErrorTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.BackgroundColor.Should().Be(options!.Error!.Color!.Background);
+            Instance.BackgroundColor.Should().BeEquivalentTo(options!.Error!.Color!.Background);
 
         }
 
@@ -465,7 +465,7 @@ public class ErrorTerminalTester
             Instance.ResetColor();
 
             //Assert
-            Instance.ForegroundColor.Should().Be(options!.Error!.Color!.Foreground);
+            Instance.ForegroundColor.Should().BeEquivalentTo(options!.Error!.Color!.Foreground);
         }
     }
 }
